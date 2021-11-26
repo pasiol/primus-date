@@ -12,7 +12,7 @@ import (
 const (
 	StartDate    = "31.12.1899"
 	StartDateInt = 1
-	DatePattern  = `^([0][1-9]|[1-2][0-9]|[3][0-1])\.([0]/d|[1][0-2])\.20[0-3][0-9]$`
+	DatePattern  = `^([0][1-9]|[1-2][0-9]|[3][0-1])\.([0][0-9]|[1][0-2])\.20[0-3][0-9]$`
 )
 
 func cleanString(d string) string {
