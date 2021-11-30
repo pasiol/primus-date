@@ -24,7 +24,7 @@ func cleanString(d string) string {
 	}, d)
 }
 
-func Valid(d string) bool {
+func ValidLayout(d string) bool {
 	match, err := regexp.Match(DatePattern, []byte(d))
 	if err != nil {
 		return false
@@ -34,23 +34,25 @@ func Valid(d string) bool {
 
 func PrimusDate2Date(d string) (time.Time, error) {
 	d = cleanString(d)
-	if Valid(d) {
+	if ValidLayout(d) {
 		day, err := strconv.Atoi(d[0:2])
 		if err != nil {
-			return time.Time{}, err
+			return time.Time{}, errors.New("not a valid primus date")
 		}
-		month, err := strconv.Atoi(d[3:5])
+		month, _ := strconv.Atoi(d[3:5])
 		if err != nil {
-			return time.Time{}, err
+			return time.Time{}, errors.New("not a valid primus date")
 		}
 		year, err := strconv.Atoi(d[6:])
 		if err != nil {
-			return time.Time{}, err
+			return time.Time{}, errors.New("not a valid primus date")
 		}
-		return time.Date(year, time.Month(month), day, 0, 0, 0, 0, time.Local), nil
-	} else {
-		return time.Time{}, errors.New("not a valid primus date")
+		date := time.Date(year, time.Month(month), day, 0, 0, 0, 0, time.UTC)
+		if date.Day() == day && date.Month() == time.Month(month) && date.Year() == year {
+			return date, nil
+		}
 	}
+	return time.Time{}, errors.New("not a valid date")
 }
 
 func Date2PrimusDateInt(t time.Time) (int, error) {
