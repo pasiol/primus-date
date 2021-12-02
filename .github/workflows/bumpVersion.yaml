@@ -1,0 +1,12 @@
+name: bump version
+
+on:
+  push
+
+jobs:
+  push:
+    runs-on: ubuntu-latest
+    steps:
+    - name: create version text file
+      run: |
+        echo ${GITHUB_REF#refs/heads/main}.${GITHUB_COMMITS}
