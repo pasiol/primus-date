@@ -9,4 +9,4 @@ jobs:
     steps:
     - name: create version text file
       run: |
-        echo ${GITHUB_REF#refs/heads/main}.${GITHUB_COMMITS}
+        echo ${GITHUB_REF#refs/heads/main/}
